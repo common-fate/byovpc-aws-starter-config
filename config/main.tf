@@ -2,10 +2,11 @@ terraform {
   required_providers {
     commonfate = {
       source  = "common-fate/commonfate"
-      version = "2.13.1"
+      version = "2.19.0"
     }
   }
 }
+
 provider "commonfate" {
   # To deploy the stack you must export CF_OIDC_CLIENT_SECRET=<Your Client Secret>
   api_url            = <Replace with the same value as your app_url (e.g. "http://commonfate.example.com")>
@@ -14,11 +15,12 @@ provider "commonfate" {
 }
 
 resource "commonfate_aws_idc_integration" "main" {
-  name              = "AWS"
-  reader_role_arn   = <The Reader Role ARN from aws-integration/main.tf's terraform output (e.g. "arn:aws:iam::123456789:role/common-fate-prod-idc-reader-role")>
-  identity_store_id = <Your AWS SSO Instance Identity Store ID (e.g. d-123456abcd)>
-  sso_instance_arn  = <Your AWS account's sso instance arn (e.g. "arn:aws:sso:::instance/ssoins-34567890vfftygfh")>
-  sso_region        =  <Your AWS SSO Instance region (e.g. us-east-1)>
+  name                   = "AWS"
+  reader_role_arn        = <The Reader Role ARN from aws-integration/main.tf's terraform output (e.g. "arn:aws:iam::123456789012:role/common-fate-prod-idc-reader-role")>
+  provisioner_role_arn   = <The Provisioner Role ARN from aws-integration/main.tf's terraform output (e.g. "arn:aws:iam::123456789012:role/common-fate-prod-idc-provisioner-role")>
+  identity_store_id      = <Your AWS SSO Instance Identity Store ID (e.g. d-123456abcd)>
+  sso_instance_arn       = <Your AWS account's sso instance arn (e.g. "arn:aws:sso:::instance/ssoins-34567890vfftygfh")>
+  sso_region             =  <Your AWS SSO Instance region (e.g. us-east-1)>
 }
 
 resource "commonfate_webhook_provisioner" "aws" {
